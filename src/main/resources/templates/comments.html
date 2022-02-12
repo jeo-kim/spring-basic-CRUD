@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>댓글</title>
 
+    <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap" rel="stylesheet">
 
@@ -41,17 +43,38 @@
             margin: 10px auto;
         }
 
+        #back-btn {
+            width: 30px;
+        }
+
         #main-posting-box {
             width: 538px;
-            padding: 70px;
+            padding-top: 100px;
+            padding-bottom: 100px;
             color: white;
             display: block;
             justify-content: center;
         }
 
+        .main-wrapper .title{
+            font-size: 18px;
+            margin-bottom: 13px;
+        }
+
+        .main-wrapper .writer{
+            font-size: 12px;
+            margin-bottom: 20px;
+        }
+
+        .main-wrapper .main-content {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
         .datetime {
+            margin-top: 10px;
             font-size: 13px;
-            color: #868e96;
+            color: rgba(253, 253, 253, 0.8);
         }
 
         #comment-contents {
@@ -66,7 +89,7 @@
         textarea.field {
             width: 538px !important;
             height: 86px;
-            border-radius: 5px;
+            border-radius: 20px;
             background-color: rgba(252, 243, 243, 0.8);
             border: none;
             padding: 18px;
@@ -119,6 +142,7 @@
         .commenter {
             font-size: 13px;
             color: #868e96;
+            margin-bottom: 10px;
         }
 
         .footer {
@@ -160,7 +184,8 @@
         function genRandomName() {
 
             let list = ['귀여운 아이스베어', '새침한 검은 호랑이', '용감한 너구리', '똑똑한 펭귄', '사랑스러운 악어',
-                '지혜로운 참새', '멋쟁이 무당벌레', '다정한 고양이', '흥부자 스누피', '깜찍한 소라게', '박력있는 미어캣', '부지런한 나무늘보']
+                '지혜로운 참새', '멋쟁이 무당벌레', '다정한 고양이', '흥부자 스누피', '깜찍한 소라게', '박력있는 미어캣', '부지런한 나무늘보',
+                    '침착한 청둥오리', '사랑스러운 수달', '']
 
             let idx = Math.floor(Math.random() * list.length);
             let result = list[idx]
@@ -179,12 +204,14 @@
                 type: 'GET',
                 url: `/api/memos/${postId}`,
                 success: function (response) {
+                    let title = response['title'];
                     let username = response['username'];
                     let contents = response['contents'];
                     let modifiedAt = response['modifiedAt'];
 
                     let temp = `<div class="main-wrapper">
-                                    <div class="writer">${username}</div>
+                                    <div class="title">${title}</div>
+                                    <div class="writer">글쓴이: ${username}</div>
                                     <div class="main-content">${contents}</div>
                                     <div class="datetime">${modifiedAt}</div>
                                 </div>`
@@ -216,9 +243,10 @@
 
             let tempHtml = `<div class="comment-card">
 
-                                <div class="commenter" id="${id}-username">${username}</div>
+
 
                                  <div class="contents">
+                                    <div class="commenter" id="${id}-username">${username}</div>
                                     <div id="${id}-contents" class="text">
                                         ${contents}
                                     </div>
@@ -230,9 +258,10 @@
 
 
                                 <div class="footer">
-                                    <img id="${id}-edit" class="icon-start-edit" src="/static/images/delete.png" alt="" onclick="editPost('${id}')">
-                                            <img id="${id}-delete" class="icon-delete" src="/static/images/delete.png" alt="" onclick="deleteOne('${id}')">
-                                            <img id="${id}-submit" class="icon-end-edit" src="../static/images/done.png" alt="" onclick="submitEdit('${id}')">
+
+                                    <img id="${id}-edit" class="icon-start-edit" src="/images/edit.png" alt="" onclick="editPost('${id}')">
+                                    <img id="${id}-delete" class="icon-delete" src="/images/delete.png" alt="" onclick="deleteOne('${id}')">
+                                    <img id="${id}-submit" class="icon-end-edit" src="/images/done.png" alt="" onclick="submitEdit('${id}')">
                                 </div>
                             </div>
                     `;
@@ -347,6 +376,8 @@
 <div class="background-body">
 </div>
     <div class="wrap">
+        <a href="/"><img id="back-btn" src="/images/back.png"></a>
+
         <div id="main-posting-box">
         </div>
 
