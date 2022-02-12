@@ -157,6 +157,17 @@
 
     </style>
     <script>
+        function genRandomName() {
+
+            let list = ['귀여운 아이스베어', '새침한 검은 호랑이', '용감한 너구리', '똑똑한 펭귄', '사랑스러운 악어',
+                '지혜로운 참새', '멋쟁이 무당벌레', '다정한 고양이', '흥부자 스누피', '깜찍한 소라게', '박력있는 미어캣', '부지런한 나무늘보']
+
+            let idx = Math.floor(Math.random() * list.length);
+            let result = list[idx]
+            return result;
+        }
+
+
         $(document).ready(function () {
             getMainContent();
             getComments();
@@ -244,7 +255,7 @@
                 return
             }
 
-            let username = "임시임시~"
+            let username = genRandomName()
             let data = {'postId': Number(postId), 'username': username, 'contents': comment}
 
             $.ajax({

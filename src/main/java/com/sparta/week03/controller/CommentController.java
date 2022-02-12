@@ -31,9 +31,7 @@ public class CommentController {
 
     @GetMapping("/api/comments/{postid}")
     public Optional<List<Comment>> readComment(@PathVariable Long postid) {
-        //todo 댓글들 수정일 역순으로 정렬해야 함.
         Sort sort = sortByDate();
-
         return commentRepository.findByPostId(postid, sort);
     }
 

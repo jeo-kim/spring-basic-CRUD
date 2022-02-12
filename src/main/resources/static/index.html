@@ -32,6 +32,8 @@
         .area-write {
             position: relative;
             width: 538px;
+            background-color: #ffffff;
+            border-radius: 10px;
         }
 
         .area-write img {
@@ -97,7 +99,17 @@
         textarea.field {
             width: 502px !important;
             height: 146px;
-            border-radius: 5px;
+            border-radius: 10px;
+            background-color: #ffffff;
+            border: none;
+            padding: 18px;
+            resize: none;
+        }
+
+        input.field {
+            width: 502px !important;
+            height: 22px;
+            border-radius: 10px;
             background-color: #ffffff;
             border: none;
             padding: 18px;
@@ -107,7 +119,6 @@
         textarea.field::placeholder {
             width: 216px;
             height: 16px;
-            font-family: 'Noto Sans KR', sans-serif;
             font-size: 16px;
             font-weight: normal;
             font-stretch: normal;
@@ -128,7 +139,6 @@
         .card .metadata {
             position: relative;
             display: flex;
-            font-family: 'Spoqa Han Sans';
             font-size: 11px;
             font-weight: normal;
             font-stretch: normal;
@@ -229,22 +239,27 @@
         }
 
         // todo 작성자명 직접받기
-        function genRandomName(length) {
-            let result = '';
-            let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-            let charactersLength = characters.length;
-            for (let i = 0; i < length; i++) {
-                let number = Math.random() * charactersLength;
-                let index = Math.floor(number);
-                result += characters.charAt(index);
-            }
-            return result;
-        }
+        // function genRandomName(length) {
+        //     let result = '';
+        //     let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        //     let charactersLength = characters.length;
+        //     for (let i = 0; i < length; i++) {
+        //         let number = Math.random() * charactersLength;
+        //         let index = Math.floor(number);
+        //         result += characters.charAt(index);
+        //     }
+        //     return result;
+        // }
 
         function editPost(id) {
             showEdits(id);
             let contents = $(`#${id}-contents`).text().trim();
             $(`#${id}-textarea`).val(contents);
+            //
+            // let title =
+
+
+
         }
 
         function showEdits(id) {
@@ -279,15 +294,16 @@
                         let message = response[i];
                         let id = message['id'];
                         let username = message['username'];
+                        let title = message['title'];
                         let contents = message['contents'];
                         let modifiedAt = message['modifiedAt'];
-                        addHTML(id, username, contents, modifiedAt);
+                        addHTML(id, username, title, contents, modifiedAt);
                     }
                 }
             })
         }
 
-        function addHTML(id, username, contents, modifiedAt) {
+        function addHTML(id, username, title, contents, modifiedAt) {
             let tempHtml = `<div class="card">
                                 <div class="metadata">
                                     <div class="date">
@@ -297,7 +313,12 @@
                                         ${username}
                                     </div>
                                 </div>
+
+
                                 <div class="contents">
+                                    <div id="${id}-title" class="title" >
+                                        ${title}
+                                    </div>
                                     <div id="${id}-contents" class="text">
                                         ${contents}
                                     </div>
@@ -319,12 +340,14 @@
         }
 
         function writePost() {
+            let title = $('#title').val();
+            let username = $('#username').val();
             let contents = $('#contents').val();
             if (isValidContents(contents) == false) {
                 return;
             }
-            let username = genRandomName(10);
-            let data = {'username': username, 'contents': contents};
+
+            let data = {'username': username, 'title':title, 'contents': contents};
             $.ajax({
                 type: "POST",
                 url: "/api/memos",
@@ -338,12 +361,16 @@
         }
 
         function submitEdit(id) {
+            //TODO 타이틀도 넣기
+            let title = $(`#${id}-title`).text().trim();
             let username = $(`#${id}-username`).text().trim();
             let contents = $(`#${id}-textarea`).val().trim();
+
+            alert(username)
             if (isValidContents(contents) == false) {
                 return;
             }
-            let data = {'username': username, 'contents': contents};
+            let data = {'username': username, 'title':title, 'contents': contents};
             $.ajax({
                 type: "PUT",
                 url: `/api/memos/${id}`,
@@ -379,9 +406,12 @@
 <div class="wrap">
     <div class="header">
         <h2>Words in Songs</h2>
+        <p>여러분이 좋아하는 노래의 가사를 공유해주세요</p>
     </div>
     <div class="area-write">
-        <textarea class="field" placeholder="공유하고 싶은 노래의 가사 일부를 적어주세요" name="contents" id="contents" cols="30"
+        <input class="field small-field" placeholder="글 제목" cols="30" rows="1" id="title"></input>
+        <input class="field small-field" placeholder="작성자" cols="30" rows="1" id="username"></input>
+        <textarea class="field" placeholder="가사의 일부를 공백포함 200자 이내로 적어주세요." name="contents" id="contents" cols="30"
                   rows="10"></textarea>
         <img src="images/send.png" alt="" onclick="writePost()">
     </div>
