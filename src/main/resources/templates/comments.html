@@ -44,6 +44,35 @@
             color: #868e96;
         }
 
+        .area-write {
+            position: relative;
+            width: 538px;
+        }
+
+        textarea.field {
+            width: 502px !important;
+            height: 146px;
+            border-radius: 5px;
+            background-color: #ffffff;
+            border: none;
+            padding: 18px;
+            resize: none;
+        }
+
+        textarea.field::placeholder {
+            width: 216px;
+            height: 16px;
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 16px;
+            font-weight: normal;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: 1;
+            letter-spacing: -0.96px;
+            text-align: left;
+            color: #868e96;
+        }
+
 
         .comment-card {
             width: 538px;
@@ -168,6 +197,40 @@
             $('#cards-box').append(tempHtml);
         }
 
+
+        function writeComment() {
+            let postId = $('#postId').text();
+
+            let comment = $('#comment-contents').val();
+            alert(comment)
+
+            if (comment == '') {
+                alert('댓글 내용을 입력해주세요')
+                return
+            }
+
+            if (comment.trim().length > 100) {
+                alert('공백 포함 100자 이하로 입력해주세요')
+                return
+            }
+
+            let username = "임시임시~"
+            let data = {'postId': Number(postId), 'username': username, 'contents': comment}
+
+            $.ajax({
+                type: "POST",
+                url: "/api/comments",
+                contentType: "application/json", // JSON 형식으로 전달함을 알리기
+                data: JSON.stringify(data),
+                success: function (response) {
+                    alert('댓글이 성공적으로 작성되었습니다.');
+                    window.location.reload();
+                }
+            });
+
+        }
+
+
         function editPost(id) {
             showEdits(id);
             let contents = $(`#${id}-contents`).text().trim();
@@ -203,13 +266,15 @@
 <div class="wrap">
 
     <div id="main-posting-box">
-
     </div>
 
-    <div id="cards-box" class="area-read">
-
-
+    <div class="area-write">
+        <textarea class="field" placeholder="댓글을 작성해주세요." name="contents" id="comment-contents" cols="40"
+                  rows="2"></textarea>
+        <a href="#" onclick="writeComment()">등록</a>
     </div>
+
+    <div id="cards-box" class="area-read"></div>
 
 </div>
 

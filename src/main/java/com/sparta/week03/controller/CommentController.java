@@ -6,10 +6,12 @@ import com.sparta.week03.domain.CommentRepository;
 import com.sparta.week03.domain.CommentRequestDto;
 import com.sparta.week03.service.CommentService;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.criterion.Order;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,11 +25,17 @@ public class CommentController {
     @PostMapping("/api/comments")
     public Comment createComment(@RequestBody CommentRequestDto requestDto) {
         Comment comment = new Comment(requestDto);
+
+        System.out.println("comment = " + comment);
+        System.out.println(comment.getContents());
+
         return commentRepository.save(comment);
     }
 
     @GetMapping("/api/comments/{postid}")
     public Optional<List<Comment>> readComment(@PathVariable Long postid) {
+        //todo 댓글들 수정일 역순으로 정렬해야 함.
+
         return commentRepository.findByPostId(postid);
     }
 
