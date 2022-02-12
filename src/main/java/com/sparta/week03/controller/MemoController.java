@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
@@ -25,6 +26,11 @@ public class MemoController {
     @GetMapping("/api/memos")
     public List<Memo> readMemo() {
         return memoRepository.findAllByOrderByModifiedAtDesc();
+    }
+
+    @GetMapping("api/memos/{id}")
+    public Optional<Memo> singleMemo(@PathVariable Long id) {
+        return memoRepository.findById(id);
     }
 
     @PutMapping("api/memos/{id}")
