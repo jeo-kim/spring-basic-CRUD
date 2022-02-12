@@ -6,8 +6,10 @@ import com.sparta.week03.domain.CommentRepository;
 import com.sparta.week03.domain.CommentRequestDto;
 import com.sparta.week03.service.CommentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
