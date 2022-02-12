@@ -162,8 +162,6 @@
             getComments();
         })
 
-        let postId = $('#postId').text();
-
         function getMainContent() {
             let postId = $('#postId').text();
             $.ajax({
@@ -181,7 +179,6 @@
                                 </div>`
                     $('#main-posting-box').append(temp);
                 }
-
             })
         }
 
@@ -208,7 +205,7 @@
 
             let tempHtml = `<div class="comment-card">
 
-                                <div class="commenter">${username}</div>
+                                <div class="commenter" id="${id}-username">${username}</div>
 
                                  <div class="contents">
                                     <div id="${id}-contents" class="text">
@@ -303,6 +300,8 @@
             let postId = $('#postId').text();
             let username = $(`#${id}-username`).text().trim();
             let contents = $(`#${id}-textarea`).val().trim();
+
+            console.log("username: ", username)
 
             if (contents == '') {
                 alert('댓글 내용을 입력해주세요')

@@ -7,6 +7,7 @@ import com.sparta.week03.domain.CommentRequestDto;
 import com.sparta.week03.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.criterion.Order;
+import org.springframework.data.domain.Sort;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,8 +32,9 @@ public class CommentController {
     @GetMapping("/api/comments/{postid}")
     public Optional<List<Comment>> readComment(@PathVariable Long postid) {
         //todo 댓글들 수정일 역순으로 정렬해야 함.
+        Sort sort = sortByDate();
 
-        return commentRepository.findByPostId(postid);
+        return commentRepository.findByPostId(postid, sort);
     }
 
     @PutMapping("/api/comments/{id}")
@@ -45,6 +47,10 @@ public class CommentController {
     public Long deleteMemo(@PathVariable Long id) {
         commentRepository.deleteById(id);
         return id;
+    }
+
+    private Sort sortByDate() {
+        return Sort.by(Sort.Direction.DESC, "modifiedAt");
     }
 
 }
