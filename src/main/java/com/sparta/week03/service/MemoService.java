@@ -16,7 +16,7 @@ public class MemoService {
     @Transactional
     public Long update(Long id, MemoRequestDto requestDto) {
         Memo memo = memoRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
+                () -> new IllegalArgumentException("memo id가 존재하지 않습니다.")
         );
         memo.update(requestDto);
         return memo.getId();
