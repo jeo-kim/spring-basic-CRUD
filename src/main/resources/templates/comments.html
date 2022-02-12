@@ -73,6 +73,11 @@
         .main-wrapper .main-content {
             font-size: 16px;
             margin-bottom: 5px;
+            white-space: normal;
+            word-break: normal;
+            height: 100px;
+            width: 536px;
+            overflow: hidden;
         }
 
         .datetime {
@@ -199,9 +204,9 @@
     <script>
         function genRandomName() {
 
-            let list = ['귀여운 아이스베어', '새침한 검은 호랑이', '용감한 너구리', '똑똑한 펭귄', '사랑스러운 악어',
-                '지혜로운 참새', '멋쟁이 무당벌레', '다정한 고양이', '흥부자 스누피', '깜찍한 소라게', '박력있는 미어캣', '부지런한 나무늘보',
-                    '침착한 청둥오리', '사랑스러운 수달', '']
+            let list = ['다정한 아이스베어', '귀여운 호랑이', '용감한 너구리', '똑똑한 펭귄', '사랑스러운 악어',
+                '지혜로운 참새', '부지런한 고양이', '흥많은 스누피', '깜찍한 소라게', '박력있는 미어캣', '계획적인 나무늘보',
+                '침착한 청둥오리', '멋쟁이 수달', '따뜻한 고슴도치']
 
             let idx = Math.floor(Math.random() * list.length);
             let result = list[idx]
