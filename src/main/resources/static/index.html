@@ -445,6 +445,16 @@
                 return;
             }
 
+            if (title == '') {
+                alert('제목을 입력해주세요')
+                return
+            }
+
+            if (username == '') {
+                alert('작성자 이름을 입력해주세요')
+                return
+            }
+
 
             let data = {'username': username, 'title':title, 'contents': contents};
             $.ajax({

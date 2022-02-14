@@ -11,7 +11,7 @@ public class ViewController {
     @GetMapping("/comments/{postId}")
     public String comments(Model model, @PathVariable Long postId) {
         model.addAttribute("data",postId);
-        System.out.println("postId = " + postId);
+
         return "comments";
     }
 
